@@ -1,4 +1,3 @@
-
 def generateur_A(valeur_de_depart):
     """Générateur pour le générateur A."""
     facteur = 16807
