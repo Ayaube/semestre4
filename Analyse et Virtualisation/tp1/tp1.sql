@@ -1,4 +1,23 @@
+CREATE TABLE region (
+    id_region SERIAL PRIMARY KEY,
+    nom VARCHAR NOT NULL
+);
 
+CREATE TABLE ville (
+    id_ville SERIAL PRIMARY KEY,
+    nom VARCHAR NOT NULL,
+    id_region INT REFERENCES region(id_region)
+);
+
+CREATE TABLE couleur (
+    id_couleur SERIAL PRIMARY KEY,
+    nom VARCHAR NOT NULL
+);
+
+CREATE TABLE marque (
+    id_marque SERIAL PRIMARY KEY,
+    nom VARCHAR NOT NULL
+);
 
 CREATE TABLE client (
     id_client SERIAL PRIMARY KEY,
@@ -8,51 +27,47 @@ CREATE TABLE client (
     carte_bancaire BIGINT
 );
 
-CREATE TABLE parfum (
-    id_parfum int PRIMARY KEY,
-    nom VARCHAR,
-    marque VARCHAR,
-    taille INT,
-    prix DECIMAL
+CREATE TABLE magasin (
+    id_magasin SERIAL PRIMARY KEY,
+    nom VARCHAR NOT NULL,
+    id_ville INT REFERENCES ville(id_ville),
+    adresse VARCHAR NOT NULL
 );
 
-CREATE TABLE magasin (
-    id_magasin INT PRIMARY KEY,
-    nom VARCHAR,
-    ville VARCHAR,
-    region VARCHAR
+CREATE TABLE parfum (
+    id_parfum SERIAL PRIMARY KEY,
+    nom VARCHAR NOT NULL,
+    id_marque INT REFERENCES marque(id_marque),
+    id_couleur INT REFERENCES couleur(id_couleur),
+    taille INT,
+    prix DECIMAL NOT NULL
 );
 
 CREATE TABLE saison (
     id_saison SERIAL PRIMARY KEY,
-    nom VARCHAR
+    nom VARCHAR NOT NULL
 );
 
 CREATE TABLE date (
     id_date SERIAL PRIMARY KEY,
-    id_saison INT references saison(id_saison),
-    jour INT CHECK ( 0 < jour AND jour < 32 ),
-    mois INT check ( 0 < mois AND mois < 13),
-    annee INT check ( 2019 < annee AND annee < 2030)
+    jour INT CHECK (jour > 0 AND jour <= 31),
+    mois INT CHECK (mois > 0 AND mois <= 12),
+    annee INT CHECK (annee > 2019 AND annee < 2030),
+    id_saison INT REFERENCES saison(id_saison)
 );
+
 CREATE TABLE transaction (
-    id SERIAL PRIMARY KEY,
-    id_client INT references client(id_client),
-    id_magasin INT references magasin(id_magasin),
-    id_date INT references date(id_date),
-    montant DECIMAL
+    id_transaction SERIAL PRIMARY KEY,
+    id_client INT REFERENCES client(id_client),
+    id_magasin INT REFERENCES magasin(id_magasin),
+    id_date INT REFERENCES date(id_date),
+    montant DECIMAL NOT NULL
 );
 
 CREATE TABLE transaction_parfum (
-    id_transaction INT,
-    id_parfum INT,
-    quantite INT,
-    prix_unitaire DECIMAL,
-    PRIMARY KEY (id_transaction, id_parfum),
-    FOREIGN KEY (id_transaction) REFERENCES transaction (id),
-    FOREIGN KEY (id_parfum) REFERENCES parfum (id_parfum)
+    id_transaction INT REFERENCES transaction(id_transaction),
+    id_parfum INT REFERENCES parfum(id_parfum),
+    quantite INT CHECK (quantite > 0),
+    prix_unitaire DECIMAL NOT NULL,
+    PRIMARY KEY (id_transaction, id_parfum)
 );
-
-
-
-

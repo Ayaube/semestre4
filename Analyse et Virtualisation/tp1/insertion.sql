@@ -1,43 +1,44 @@
 
+INSERT INTO region (nom) VALUES ('Île-de-France'), ('Auvergne-Rhône-Alpes'), ('Nouvelle-Aquitaine');
+
+
+INSERT INTO ville (nom, id_region) VALUES ('Paris', 1), ('Lyon', 2), ('Bordeaux', 3);
+
+
+INSERT INTO couleur (nom) VALUES ('Rouge'), ('Bleu'), ('Vert');
+
+
+INSERT INTO marque (nom) VALUES ('Chanel'), ('Dior'), ('Guerlain');
+
+
 INSERT INTO client (nom, prenom, adresse, carte_bancaire) VALUES
-('Dupont', 'Jean', '123 rue de Paris', 1234567890123456),
-('Martin', 'Alice', '456 avenue des Champs', 2345678901234567),
-('Durand', 'Sophie', '789 boulevard de la Liberté', 3456789012345678);
+('Dupont', 'Jean', '123 rue de Paris, Paris', 1234567890123456),
+('Durand', 'Marie', '456 rue de Lyon, Lyon', 6543210987654321);
 
 
-INSERT INTO parfum (id_parfum, nom, marque, taille, prix) VALUES
-(1, 'Eau de Cologne', 'Chanel', 50, 70.00),
-(2, 'Jasmine', 'Dior', 30, 85.50),
-(3, 'Rose de Nuit', 'Guerlain', 100, 120.00);
+INSERT INTO magasin (nom, id_ville, adresse) VALUES
+('Boutique Paris', 1, '789 rue de Paris'),
+('Boutique Lyon', 2, '321 rue de Lyon');
 
 
-INSERT INTO magasin (id_magasin, nom, ville, region) VALUES
-(1, 'Parfumerie Centrale', 'Paris', 'Île-de-France'),
-(2, 'Senteurs du Sud', 'Nice', 'Provence-Alpes-Côte d Azur'),
-(3, 'L Arôme du Nord', 'Lille', 'Hauts-de-France');
+INSERT INTO parfum (nom, id_marque, id_couleur, taille, prix) VALUES
+('Eau de Vie', 1, 1, 50, 75.00),
+('Aqua Fresca', 2, 2, 75, 60.00);
 
 
-INSERT INTO saison (nom) VALUES
-('Printemps'),
-('Été'),
-('Automne'),
-('Hiver');
+INSERT INTO saison (nom) VALUES ('Été'), ('Hiver'), ('Printemps'), ('Automne');
 
 
-INSERT INTO date (id_saison, jour, mois, annee) VALUES
-(1, 15, 3, 2021),
-(2, 21, 6, 2021),
-(3, 10, 10, 2021),
-(4, 5, 12, 2021);
+INSERT INTO date (jour, mois, annee, id_saison) VALUES
+(1, 1, 2023, 2),
+(15, 6, 2023, 1);
 
 
 INSERT INTO transaction (id_client, id_magasin, id_date, montant) VALUES
-(1, 1, 1, 150.00),
-(2, 2, 2, 85.50),
-(3, 3, 3, 240.00);
+(1, 1, 1, 150.00), -- Dupont achète à Paris le 1 Janvier
+(2, 2, 2, 120.00); -- Marie achète à Lyon le 15 Juin
 
 
 INSERT INTO transaction_parfum (id_transaction, id_parfum, quantite, prix_unitaire) VALUES
-(1, 1, 2, 70.00),
-(1, 2, 1, 85.50),
-(2, 3, 2, 120.00);
+(1, 1, 2, 75.00), -- Dupont achète 2 "Eau de Vie" à 75€ l'unité
+(2, 2, 2, 60.00); -- Marie achète 2 "Aqua Fresca" à 60€ l'unité
