@@ -1,0 +1,2657 @@
+/*
+ * SCRIPT: "iut_versionRoboMongo.js"
+ * AUTEUR: Myriam Lamolle
+ * DATE: 06/02/2023
+ * MODELE: Script "iut2019.sql" par Myriam LAMOLLE
+ */
+
+// Récupération de la base de données "iut"
+db = db.getSiblingDB("iut");
+
+// Nettoyage des collections
+db.departement.drop();
+db.personnel.drop();
+db.enseignant.drop();
+db.etudiant.drop();
+db.module.drop();
+
+// Insertion des départements
+db.departement.insertMany([
+    {"_id":"INFO","titre":"Informatique"},
+    {"_id":"QLIO","titre":"Qualité, Logistique Industrielle et Organisation"},
+    {"_id":"INFOCOM","titre":"Information et Communication"},
+    {"_id":"GACO","titre":"Gestion des Administrations et Commerce"}
+]);
+
+// Insertion du personnel
+db.personnel.insertMany([
+    {"_id":1,"nom":"Boulanger","prenom":"Max","fonction":"Directeur"},
+    {"_id":2,"nom":"Flauraud","prenom":"Khamphou","fonction":"Responsable d'administration"},
+    {"_id":3,"nom":"Hassoun","prenom":"Abdallah","fonction":"Responsable CCRI"},
+    {"_id":4,"nom":"Filoche","prenom":"Eddy","fonction":"Responsable HygiÃ¨ne et Sécurité"},
+    {"_id":30,"nom":"Kamal","prenom":"Rachida","fonction":"Chargé de mission"},
+    {"_id":6,"nom":"Bayoud","prenom":"Khadija","fonction":"Secrétaire Informatique","dept":"INFO"},
+    {"_id":7,"nom":"Lamolle","prenom":"Myriam","fonction":"Cheffe de département","dept":"INFO"},
+    {"_id":200,"nom":"Dafaoui","prenom":"El Mouloudi","fonction":"Chef de département","dept":"QLIO"},
+    {"_id":300,"nom":"Baboulall","prenom":"Marielle","fonction":"Cheffe de département","dept":"GACO"},
+    {"_id":400,"nom":"Kaiser","prenom":"Marc","fonction":"Chef de département","dept":"INFOCOM"},
+    {"_id":15,"nom":"Bonnot","prenom":"Philippe","fonction":"Directreur des études 1A","dept":"INFO"},
+    {"_id":10,"nom":"Ricordeau","prenom":"Anne","fonction":"Responsable Apprentissage DUT","dept":"INFO"},
+    {"_id":11,"nom":"Georges","prenom":"Rémi","fonction":"Responsable stage","dept":"INFO"},
+    {"_id":19,"nom":"Cataldi","prenom":"Mario","fonction":"Responsable licence prof. CIM","dept":"INFO"},
+    {"_id":5,"nom":"Rety","prenom":"Jean-Hugues","fonction":"Responsable licence prof. CSID","dept":"INFO"},
+    {"_id":14,"nom":"Emonides","prenom":"Mireille","fonction":"Responsable Contrat Apprentissage","dept":"INFO"},
+]);
+
+// Insertion des enseignants
+db.enseignant.insertMany([
+    {"_id":5,"nom":"Rety","prenom":"Jean-Hugues","titulaire":true,"dept":"INFO"},
+    {"_id":7,"nom":"Lamolle","prenom":"Myriam","titulaire":true,"dept":"INFO"},
+    {"_id":8,"nom":"Homps","prenom":"Marc","titulaire":true,"dept":"INFO"},
+    {"_id":9,"nom":"Simonot","prenom":"Marianne","titulaire":true,"dept":"INFO"},
+    {"_id":10,"nom":"Ricordeau","prenom":"Anne","titulaire":true,"dept":"INFO"},
+    {"_id":11,"nom":"Georges","prenom":"Rémi","titulaire":true,"dept":"INFO"},
+    {"_id":12,"nom":"Delmas","prenom":"Guylain","titulaire":true,"dept":"INFO"},
+    {"_id":13,"nom":"Nauwynck","prenom":"Nédra","titulaire":true,"dept":"INFO"},
+    {"_id":15,"nom":"Bonnot","prenom":"Philippe","titulaire":true,"dept":"INFO"},
+    {"_id":16,"nom":"Clément-Comparot","prenom":"Véronique","titulaire":true,"dept":"INFO"},
+    {"_id":17,"nom":"Le Duc","prenom":"Chan","titulaire":true,"dept":"INFO"},
+    {"_id":18,"nom":"Bossard","prenom":"Aurélien","titulaire":true,"dept":"INFO"},
+    {"_id":19,"nom":"Cataldi","prenom":"Mario","titulaire":true,"dept":"INFO"},
+    {"_id":20,"nom":"Golven","prenom":"Amélie","titulaire":true,"dept":"INFO"},
+    {"_id":21,"nom":"Ballay-Dally","prenom":"Charlotte","titulaire":true,"dept":"QLIO"},
+    {"_id":23,"nom":"Groff","prenom":"Geoffrey","titulaire":true,"dept":"INFO"},
+    {"_id":22,"nom":"Chebbi","prenom":"Imen","titulaire":false},
+    {"_id":24,"nom":"Tobbelem","prenom":"Jocelin","titulaire":false},
+    {"_id":25,"nom":"Mockel","prenom":"Mehdi","titulaire":false},
+    {"_id":26,"nom":"Mourel","prenom":"Frédéric","titulaire":false},
+    {"_id":27,"nom":"Nyzam","prenom":"Valentin","titulaire":false},
+    {"_id":30,"nom":"Kamal","prenom":"Rachida","titulaire":false},
+]);
+
+// Insertion des modules
+// Attribution des responsables des modules via leur _id.
+db.module.insertMany([
+    // M11xx
+    {"_id":"M1101","intitule":"Introduction aux systÃ¨mes informatiques","classe":"S1","coef":3.5,"ens":12},
+    {"_id":"M1102","intitule":"Introduction Ã  l'algorithmique et Ã  la programmation","classe":"S1","coef":3.5,"ens":5},
+    {"_id":"M1103","intitule":"Structures de données et algorithmes fondamentaux","classe":"S1","coef":2.5,"ens":5},
+    {"_id":"M1104","intitule":"Introduction aux bases de données","classe":"S1","coef":3.5,"ens":7},
+    {"_id":"M1105","intitule":"Conception de documents et d'interfaces numériques","classe":"S1","coef":2.5,"ens":5},
+    {"_id":"M1106","intitule":"Projet Tutoré - Découverte","classe":"S1","coef":1.5,"ens":5},
+    
+    // M12xx
+    {"_id":"M1201","intitule":"Mathématiques discrÃ¨tes","classe":"S1","coef":2.5,"ens":8},
+    {"_id":"M1202","intitule":"AlgÃ¨bre linéaire","classe":"S1","coef":2.0,"ens":15},
+    {"_id":"M1203","intitule":"Environnement économique","classe":"S1","coef":1.5,"ens":16},
+    {"_id":"M1204","intitule":"Fonctionnement des organisations","classe":"S1","coef":2.5,"ens":15},
+    {"_id":"M1205","intitule":"Expression communication - Fondamentaux de la communication","classe":"S1","coef":2.0,"ens":20},
+    {"_id":"M1206","intitule":"Anglais et Informatique","classe":"S1","coef":1.5,"ens":20},
+    {"_id":"M1207","intitule":"PPP - ConnaÃ®tre le monde professionnel","classe":"S1","coef":1.0,"ens":20},
+    
+    // M21xx
+    {"_id":"M2101","intitule":"Architecture et programmation des mécanismes de base d'un systÃ¨me informatique","classe":"S2","coef":1.5,"ens":17},
+    {"_id":"M2102","intitule":"Architecture des réseaux","classe":"S2","coef":1.5,"ens":12},
+    {"_id":"M2103","intitule":"Base de la programmation orientée objet","classe":"S2","coef":3.5,"ens":5},
+    {"_id":"M2104","intitule":"Base de la conception orientée objet","classe":"S2","coef":2.5,"ens":9},
+    {"_id":"M2105","intitule":"Introduction aux interfaces Homme-Machine (IHM)","classe":"S2","coef":2.5,"ens":5},
+    {"_id":"M2106","intitule":"Programmation et administration des bases de données","classe":"S2","coef":2.5,"ens":7},
+    {"_id":"M2107","intitule":"Projet tutoré - Description et planification de projet","classe":"S2","coef":2.0,"ens":11},
+    
+    // M22xx
+    {"_id":"M2201","intitule":"Graphes et langages","classe":"S2","coef":2.5,"ens":8},
+    {"_id":"M2202","intitule":"Anlyse et méthodes numériques","classe":"S2","coef":2.0,"ens":15},
+    {"_id":"M2203","intitule":"Environnement comptable, financier, juridique et social","classe":"S2","coef":3.0,"ens":16},
+    {"_id":"M2204","intitule":"Gestion de projet informatique","classe":"S2","coef":1.5,"ens":11},
+    {"_id":"M2205","intitule":"Expression-Communication - Communication, information et argumentation","classe":"S2","coef":1.5,"ens":20},
+    {"_id":"M2206","intitule":"Communiquer en anglais","classe":"S2","coef":2.5,"ens":20},
+    {"_id":"M2207","intitule":"PPP - Identifier ses compétences","classe":"S2","coef":1.0,"ens":20},
+    
+    // M31xx
+    {"_id":"M3101","intitule":"Principe des systÃ¨mes d'exploitation","classe":"S3","coef":2.5,"ens":17},
+    {"_id":"M3102","intitule":"Services réseaux","classe":"S3","coef":1.5,"ens":13},
+    {"_id":"M3103","intitule":"Algorithmique avancée","classe":"S3","coef":1.5,"ens":5},
+    {"_id":"M3104","intitule":"Programmation Web cÃ´té serveur","classe":"S3","coef":2.5,"ens":18},
+    {"_id":"M3105","intitule":"Conception et programmation objet avancées","classe":"S3","coef":2.5,"ens":9},
+    {"_id":"M3106C","intitule":"Bases de données avancées","classe":"S3","coef":1.5,"ens":7},
+    
+    // M32xx
+    {"_id":"M3201","intitule":"Probabilités et statistiques","classe":"S3","coef":2.5,"ens":8},
+    {"_id":"M3202C","intitule":"Modélisations mathématiques","classe":"S3","coef":1.5,"ens":10},
+    {"_id":"M3203","intitule":"Droit des technologies de l'information et de la communication (TIC)","classe":"S3","coef":1.5,"ens":16},
+    {"_id":"M3204","intitule":"Gestion des systÃ¨mes d'information","classe":"S3","coef":2.5,"ens":7},
+    {"_id":"M3205","intitule":"Expression-Communication - Communication, professionnelle","classe":"S3","coef":1.5,"ens":20},
+    {"_id":"M3206","intitule":"Collaborer en anglais","classe":"S3","coef":2.5,"ens":20},
+    
+    // M33xx
+    {"_id":"M3301","intitule":"Méthodologies de la production d'applications","classe":"S3","coef":3.0,"ens":11},
+    {"_id":"M3302","intitule":"Projet tutoré - Mise en situation professionnelle","classe":"S3","coef":2.0,"ens":11},
+    {"_id":"M3303","intitule":"PPP - Préciser son projet","classe":"S3","coef":1.0,"ens":20},
+    
+    // M41xx (optionnel)
+    {"_id":"M4101","intitule":"XML","classe":"S4","coef":2.0,"ens":7}
+]);
+
+// insertion des étudiants
+db.etudiant.insertMany([
+{
+    "_id" : ObjectId("63d92eb8010da14e568c298e"),
+    "nom" : "Charles",
+    "prenom" : "Glenn",
+    "classe" : "S3",
+    "notes" : [
+        {
+            "inter" : {
+                "module" : "M1102",
+                "coef" : 0.5
+            },
+            "note" : 11.72
+        },
+        {
+            "inter" : {
+                "module" : "M1205",
+                "coef" : NumberInt(1)
+            },
+            "note" : 11.77
+        },
+        {
+            "inter" : {
+                "module" : "M2205",
+                "coef" : 3.5
+            },
+            "note" : 16.07
+        },
+        {
+            "inter" : {
+                "module" : "M1204",
+                "coef" : 3.5
+            },
+            "note" : 6.56
+        },
+        {
+            "inter" : {
+                "module" : "M2106",
+                "coef" : NumberInt(1)
+            },
+            "note" : 8.27
+        },
+        {
+            "inter" : {
+                "module" : "M4101",
+                "coef" : NumberInt(3)
+            },
+            "note" : 7.9
+        },
+        {
+            "inter" : {
+                "module" : "M1206",
+                "coef" : 2.5
+            },
+            "note" : 12.75
+        },
+        {
+            "inter" : {
+                "module" : "M2207",
+                "coef" : NumberInt(1)
+            },
+            "note" : 6.69
+        },
+        {
+            "inter" : {
+                "module" : "M2103",
+                "coef" : 1.5
+            },
+            "note" : 11.36
+        },
+        {
+            "inter" : {
+                "module" : "M3206",
+                "coef" : NumberInt(2)
+            },
+            "note" : 8.3
+        }
+    ]
+},
+  {
+    "_id" : ObjectId("63d92eb8010da14e568c298f"),
+    "nom" : "Barton",
+    "prenom" : "Sellers",
+    "classe" : "S1",
+    "notes" : [
+        {
+            "inter" : {
+                "module" : "M2205",
+                "coef" : 3.5
+            },
+            "note" : 16.66
+        },
+        {
+            "inter" : {
+                "module" : "M2204",
+                "coef" : NumberInt(1)
+            },
+            "note" : 2.19
+        },
+        {
+            "inter" : {
+                "module" : "M2106",
+                "coef" : NumberInt(1)
+            },
+            "note" : 8.85
+        },
+        {
+            "inter" : {
+                "module" : "M1102",
+                "coef" : 0.5
+            },
+            "note" : 5.77
+        },
+        {
+            "inter" : {
+                "module" : "M1205",
+                "coef" : NumberInt(1)
+            },
+            "note" : 1.51
+        },
+        {
+            "inter" : {
+                "module" : "M3206",
+                "coef" : NumberInt(2)
+            },
+            "note" : 8.13
+        },
+        {
+            "inter" : {
+                "module" : "M3302",
+                "coef" : 1.5
+            },
+            "note" : 14.46
+        },
+        {
+            "inter" : {
+                "module" : "M2207",
+                "coef" : NumberInt(1)
+            },
+            "note" : 16.92
+        }
+    ]
+},
+{
+    "_id" : ObjectId("63d92eb8010da14e568c2990"),
+    "nom" : "Marion",
+    "prenom" : "Contreras",
+    "classe" : "S2",
+    "notes" : [
+        {
+            "inter" : {
+                "module" : "M2207",
+                "coef" : NumberInt(1)
+            },
+            "note" : 8.96
+        },
+        {
+            "inter" : {
+                "module" : "M2205",
+                "coef" : 3.5
+            },
+            "note" : 11.47
+        },
+        {
+            "inter" : {
+                "module" : "M1102",
+                "coef" : 0.5
+            },
+            "note" : 4.65
+        },
+        {
+            "inter" : {
+                "module" : "M3206",
+                "coef" : NumberInt(2)
+            },
+            "note" : 1.88
+        },
+        {
+            "inter" : {
+                "module" : "M2204",
+                "coef" : NumberInt(1)
+            },
+            "note" : 13.56
+        },
+        {
+            "inter" : {
+                "module" : "M2106",
+                "coef" : NumberInt(1)
+            },
+            "note" : 11.01
+        },
+        {
+            "inter" : {
+                "module" : "M3302",
+                "coef" : 1.5
+            },
+            "note" : 9.74
+        },
+        {
+            "inter" : {
+                "module" : "M4101",
+                "coef" : NumberInt(3)
+            },
+            "note" : 12.76
+        },
+        {
+            "inter" : {
+                "module" : "M1205",
+                "coef" : NumberInt(1)
+            },
+            "note" : 9.26
+        },
+        {
+            "inter" : {
+                "module" : "M1204",
+                "coef" : 3.5
+            },
+            "note" : 5.56
+        }
+    ]
+},
+{
+    "_id" : ObjectId("63d92eb8010da14e568c2991"),
+    "nom" : "Pearson",
+    "prenom" : "Santos",
+    "classe" : "S1",
+    "notes" : [
+        {
+            "inter" : {
+                "module" : "M1206",
+                "coef" : 2.5
+            },
+            "note" : 8.2
+        },
+        {
+            "inter" : {
+                "module" : "M2106",
+                "coef" : NumberInt(1)
+            },
+            "note" : 11.84
+        },
+        {
+            "inter" : {
+                "module" : "M4101",
+                "coef" : NumberInt(3)
+            },
+            "note" : 13.98
+        },
+        {
+            "inter" : {
+                "module" : "M2207",
+                "coef" : NumberInt(1)
+            },
+            "note" : 13.79
+        },
+        {
+            "inter" : {
+                "module" : "M1205",
+                "coef" : NumberInt(1)
+            },
+            "note" : 14.07
+        },
+        {
+            "inter" : {
+                "module" : "M3206",
+                "coef" : NumberInt(2)
+            },
+            "note" : 9.65
+        },
+        {
+            "inter" : {
+                "module" : "M2103",
+                "coef" : 1.5
+            },
+            "note" : 8.62
+        },
+        {
+            "inter" : {
+                "module" : "M3302",
+                "coef" : 1.5
+            },
+            "note" : 11.26
+        },
+        {
+            "inter" : {
+                "module" : "M2204",
+                "coef" : NumberInt(1)
+            },
+            "note" : 14.07
+        }
+    ]
+},
+{
+    "_id" : ObjectId("63d92eb8010da14e568c2992"),
+    "nom" : "Bradshaw",
+    "prenom" : "Kennedy",
+    "classe" : "S3",
+    "notes" : [
+        {
+            "inter" : {
+                "module" : "M1204",
+                "coef" : 3.5
+            },
+            "note" : 10.3
+        },
+        {
+            "inter" : {
+                "module" : "M1102",
+                "coef" : 0.5
+            },
+            "note" : 10.73
+        },
+        {
+            "inter" : {
+                "module" : "M1206",
+                "coef" : 2.5
+            },
+            "note" : 10.94
+        },
+        {
+            "inter" : {
+                "module" : "M3206",
+                "coef" : NumberInt(2)
+            },
+            "note" : 11.18
+        },
+        {
+            "inter" : {
+                "module" : "M3302",
+                "coef" : 1.5
+            },
+            "note" : 5.92
+        },
+        {
+            "inter" : {
+                "module" : "M4101",
+                "coef" : NumberInt(3)
+            },
+            "note" : 13.01
+        },
+        {
+            "inter" : {
+                "module" : "M2207",
+                "coef" : NumberInt(1)
+            },
+            "note" : 9.87
+        },
+        {
+            "inter" : {
+                "module" : "M1205",
+                "coef" : NumberInt(1)
+            },
+            "note" : 5.8
+        },
+        {
+            "inter" : {
+                "module" : "M2204",
+                "coef" : NumberInt(1)
+            },
+            "note" : 9.76
+        },
+        {
+            "inter" : {
+                "module" : "M2106",
+                "coef" : NumberInt(1)
+            },
+            "note" : 11.95
+        }
+    ]
+},
+{
+    "_id" : ObjectId("63d92eb8010da14e568c2993"),
+    "nom" : "Carissa",
+    "prenom" : "Garcia",
+    "classe" : "S4",
+    "notes" : [
+        {
+            "inter" : {
+                "module" : "M2103",
+                "coef" : 1.5
+            },
+            "note" : 13.07
+        },
+        {
+            "inter" : {
+                "module" : "M1205",
+                "coef" : NumberInt(1)
+            },
+            "note" : 10.35
+        },
+        {
+            "inter" : {
+                "module" : "M3302",
+                "coef" : 1.5
+            },
+            "note" : 4.47
+        },
+        {
+            "inter" : {
+                "module" : "M2204",
+                "coef" : NumberInt(1)
+            },
+            "note" : 15.77
+        },
+        {
+            "inter" : {
+                "module" : "M4101",
+                "coef" : NumberInt(3)
+            },
+            "note" : 8.51
+        },
+        {
+            "inter" : {
+                "module" : "M2106",
+                "coef" : NumberInt(1)
+            },
+            "note" : 14.59
+        },
+        {
+            "inter" : {
+                "module" : "M1204",
+                "coef" : 3.5
+            },
+            "note" : 9.59
+        },
+        {
+            "inter" : {
+                "module" : "M2207",
+                "coef" : NumberInt(1)
+            },
+            "note" : 15.02
+        },
+        {
+            "inter" : {
+                "module" : "M2205",
+                "coef" : 3.5
+            },
+            "note" : 11.4
+        },
+        {
+            "inter" : {
+                "module" : "M3206",
+                "coef" : NumberInt(2)
+            },
+            "note" : 9.49
+        }
+    ]
+},
+{
+    "_id" : ObjectId("63d92eb8010da14e568c2994"),
+    "nom" : "Rosalind",
+    "prenom" : "Lawrence",
+    "classe" : "S1",
+    "notes" : [
+        {
+            "inter" : {
+                "module" : "M1102",
+                "coef" : 0.5
+            },
+            "note" : 7.8
+        },
+        {
+            "inter" : {
+                "module" : "M1204",
+                "coef" : 3.5
+            },
+            "note" : 6.28
+        },
+        {
+            "inter" : {
+                "module" : "M2205",
+                "coef" : 3.5
+            },
+            "note" : 6.14
+        },
+        {
+            "inter" : {
+                "module" : "M2106",
+                "coef" : NumberInt(1)
+            },
+            "note" : 13.03
+        },
+        {
+            "inter" : {
+                "module" : "M3206",
+                "coef" : NumberInt(2)
+            },
+            "note" : 5.25
+        },
+        {
+            "inter" : {
+                "module" : "M2207",
+                "coef" : NumberInt(1)
+            },
+            "note" : 8.64
+        },
+        {
+            "inter" : {
+                "module" : "M1205",
+                "coef" : NumberInt(1)
+            },
+            "note" : 12.91
+        },
+        {
+            "inter" : {
+                "module" : "M2103",
+                "coef" : 1.5
+            },
+            "note" : 14.14
+        },
+        {
+            "inter" : {
+                "module" : "M4101",
+                "coef" : NumberInt(3)
+            },
+            "note" : 7.6
+        }
+    ]
+},
+{
+    "_id" : ObjectId("63d92eb8010da14e568c2995"),
+    "nom" : "Finch",
+    "prenom" : "Wooten",
+    "classe" : "S4",
+    "notes" : [
+        {
+            "inter" : {
+                "module" : "M3302",
+                "coef" : 1.5
+            },
+            "note" : 5.19
+        },
+        {
+            "inter" : {
+                "module" : "M2205",
+                "coef" : 3.5
+            },
+            "note" : 14.57
+        },
+        {
+            "inter" : {
+                "module" : "M1102",
+                "coef" : 0.5
+            },
+            "note" : 9.54
+        },
+        {
+            "inter" : {
+                "module" : "M3206",
+                "coef" : NumberInt(2)
+            },
+            "note" : 15.31
+        },
+        {
+            "inter" : {
+                "module" : "M4101",
+                "coef" : NumberInt(3)
+            },
+            "note" : 12.92
+        },
+        {
+            "inter" : {
+                "module" : "M1206",
+                "coef" : 2.5
+            },
+            "note" : 9.63
+        },
+        {
+            "inter" : {
+                "module" : "M2204",
+                "coef" : NumberInt(1)
+            },
+            "note" : 6.47
+        },
+        {
+            "inter" : {
+                "module" : "M1204",
+                "coef" : 3.5
+            },
+            "note" : 7.41
+        },
+        {
+            "inter" : {
+                "module" : "M2103",
+                "coef" : 1.5
+            },
+            "note" : 5.44
+        },
+        {
+            "inter" : {
+                "module" : "M2207",
+                "coef" : NumberInt(1)
+            },
+            "note" : 6.53
+        }
+    ]
+},
+{
+    "_id" : ObjectId("63d92eb8010da14e568c2996"),
+    "nom" : "Trudy",
+    "prenom" : "Pace",
+    "classe" : "S3",
+    "notes" : [
+        {
+            "inter" : {
+                "module" : "M2207",
+                "coef" : NumberInt(1)
+            },
+            "note" : 11.3
+        },
+        {
+            "inter" : {
+                "module" : "M2204",
+                "coef" : NumberInt(1)
+            },
+            "note" : 11.43
+        },
+        {
+            "inter" : {
+                "module" : "M4101",
+                "coef" : NumberInt(3)
+            },
+            "note" : 7.98
+        },
+        {
+            "inter" : {
+                "module" : "M1206",
+                "coef" : 2.5
+            },
+            "note" : 8.9
+        },
+        {
+            "inter" : {
+                "module" : "M2205",
+                "coef" : 3.5
+            },
+            "note" : 4.1
+        },
+        {
+            "inter" : {
+                "module" : "M3302",
+                "coef" : 1.5
+            },
+            "note" : 5.43
+        },
+        {
+            "inter" : {
+                "module" : "M2106",
+                "coef" : NumberInt(1)
+            },
+            "note" : 10.36
+        },
+        {
+            "inter" : {
+                "module" : "M2103",
+                "coef" : 1.5
+            },
+            "note" : 8.47
+        },
+        {
+            "inter" : {
+                "module" : "M1205",
+                "coef" : NumberInt(1)
+            },
+            "note" : 16.01
+        },
+        {
+            "inter" : {
+                "module" : "M1102",
+                "coef" : 0.5
+            },
+            "note" : 8.77
+        }
+    ]
+},
+{
+    "_id" : ObjectId("63d92eb8010da14e568c2997"),
+    "nom" : "Vinson",
+    "prenom" : "Ayers",
+    "classe" : "S2",
+    "notes" : [
+        {
+            "inter" : {
+                "module" : "M2205",
+                "coef" : 3.5
+            },
+            "note" : 3.81
+        },
+        {
+            "inter" : {
+                "module" : "M2204",
+                "coef" : NumberInt(1)
+            },
+            "note" : 10.5
+        },
+        {
+            "inter" : {
+                "module" : "M2207",
+                "coef" : NumberInt(1)
+            },
+            "note" : 14.38
+        },
+        {
+            "inter" : {
+                "module" : "M1204",
+                "coef" : 3.5
+            },
+            "note" : 8.03
+        },
+        {
+            "inter" : {
+                "module" : "M1206",
+                "coef" : 2.5
+            },
+            "note" : 11.89
+        },
+        {
+            "inter" : {
+                "module" : "M1205",
+                "coef" : NumberInt(1)
+            },
+            "note" : 2.22
+        },
+        {
+            "inter" : {
+                "module" : "M4101",
+                "coef" : NumberInt(3)
+            },
+            "note" : 4.05
+        }
+    ]
+},
+{
+    "_id" : ObjectId("63d92eb8010da14e568c2998"),
+    "nom" : "Keith",
+    "prenom" : "Booker",
+    "classe" : "S1",
+    "notes" : [
+        {
+            "inter" : {
+                "module" : "M2103",
+                "coef" : 1.5
+            },
+            "note" : 10.52
+        },
+        {
+            "inter" : {
+                "module" : "M1205",
+                "coef" : NumberInt(1)
+            },
+            "note" : 7.89
+        },
+        {
+            "inter" : {
+                "module" : "M2204",
+                "coef" : NumberInt(1)
+            },
+            "note" : 8.9
+        },
+        {
+            "inter" : {
+                "module" : "M1206",
+                "coef" : 2.5
+            },
+            "note" : 8.39
+        },
+        {
+            "inter" : {
+                "module" : "M1102",
+                "coef" : 0.5
+            },
+            "note" : 7.11
+        },
+        {
+            "inter" : {
+                "module" : "M4101",
+                "coef" : NumberInt(3)
+            },
+            "note" : 14.65
+        },
+        {
+            "inter" : {
+                "module" : "M1204",
+                "coef" : 3.5
+            },
+            "note" : NumberInt(14)
+        }
+    ]
+},
+{
+    "_id" : ObjectId("63d92eb8010da14e568c2999"),
+    "nom" : "Petty",
+    "prenom" : "Brewer",
+    "classe" : "S1",
+    "notes" : [
+        {
+            "inter" : {
+                "module" : "M2205",
+                "coef" : 3.5
+            },
+            "note" : 7.53
+        },
+        {
+            "inter" : {
+                "module" : "M2204",
+                "coef" : NumberInt(1)
+            },
+            "note" : 7.17
+        },
+        {
+            "inter" : {
+                "module" : "M1102",
+                "coef" : 0.5
+            },
+            "note" : 6.26
+        },
+        {
+            "inter" : {
+                "module" : "M1204",
+                "coef" : 3.5
+            },
+            "note" : 6.26
+        },
+        {
+            "inter" : {
+                "module" : "M1205",
+                "coef" : NumberInt(1)
+            },
+            "note" : 8.08
+        },
+        {
+            "inter" : {
+                "module" : "M2103",
+                "coef" : 1.5
+            },
+            "note" : 4.73
+        },
+        {
+            "inter" : {
+                "module" : "M1206",
+                "coef" : 2.5
+            },
+            "note" : 10.12
+        }
+    ]
+},
+{
+    "_id" : ObjectId("63d92eb8010da14e568c299a"),
+    "nom" : "Lowery",
+    "prenom" : "Gordon",
+    "classe" : "S3",
+    "notes" : [
+        {
+            "inter" : {
+                "module" : "M1204",
+                "coef" : 3.5
+            },
+            "note" : 10.55
+        },
+        {
+            "inter" : {
+                "module" : "M4101",
+                "coef" : NumberInt(3)
+            },
+            "note" : 9.22
+        },
+        {
+            "inter" : {
+                "module" : "M2103",
+                "coef" : 1.5
+            },
+            "note" : 5.41
+        },
+        {
+            "inter" : {
+                "module" : "M1206",
+                "coef" : 2.5
+            },
+            "note" : NumberInt(11)
+        },
+        {
+            "inter" : {
+                "module" : "M2207",
+                "coef" : NumberInt(1)
+            },
+            "note" : 15.57
+        },
+        {
+            "inter" : {
+                "module" : "M2205",
+                "coef" : 3.5
+            },
+            "note" : 8.82
+        },
+        {
+            "inter" : {
+                "module" : "M1205",
+                "coef" : NumberInt(1)
+            },
+            "note" : 11.99
+        },
+        {
+            "inter" : {
+                "module" : "M2106",
+                "coef" : NumberInt(1)
+            },
+            "note" : 11.86
+        },
+        {
+            "inter" : {
+                "module" : "M3206",
+                "coef" : NumberInt(2)
+            },
+            "note" : 9.3
+        },
+        {
+            "inter" : {
+                "module" : "M2204",
+                "coef" : NumberInt(1)
+            },
+            "note" : 9.9
+        }
+    ]
+},
+{
+    "_id" : ObjectId("63d92eb8010da14e568c299b"),
+    "nom" : "Kayla",
+    "prenom" : "Rogers",
+    "classe" : "S1",
+    "notes" : [
+        {
+            "inter" : {
+                "module" : "M2106",
+                "coef" : NumberInt(1)
+            },
+            "note" : 10.81
+        },
+        {
+            "inter" : {
+                "module" : "M2103",
+                "coef" : 1.5
+            },
+            "note" : 7.29
+        },
+        {
+            "inter" : {
+                "module" : "M1205",
+                "coef" : NumberInt(1)
+            },
+            "note" : 11.97
+        },
+        {
+            "inter" : {
+                "module" : "M3206",
+                "coef" : NumberInt(2)
+            },
+            "note" : 6.53
+        },
+        {
+            "inter" : {
+                "module" : "M1206",
+                "coef" : 2.5
+            },
+            "note" : 12.06
+        },
+        {
+            "inter" : {
+                "module" : "M2207",
+                "coef" : NumberInt(1)
+            },
+            "note" : 12.1
+        },
+        {
+            "inter" : {
+                "module" : "M1204",
+                "coef" : 3.5
+            },
+            "note" : 10.87
+        },
+        {
+            "inter" : {
+                "module" : "M1102",
+                "coef" : 0.5
+            },
+            "note" : 14.56
+        }
+    ]
+},
+{
+    "_id" : ObjectId("63d92eb8010da14e568c299c"),
+    "nom" : "Jessica",
+    "prenom" : "Joyce",
+    "classe" : "S2",
+    "notes" : [
+        {
+            "inter" : {
+                "module" : "M1204",
+                "coef" : 3.5
+            },
+            "note" : 12.6
+        },
+        {
+            "inter" : {
+                "module" : "M1206",
+                "coef" : 2.5
+            },
+            "note" : 12.19
+        },
+        {
+            "inter" : {
+                "module" : "M4101",
+                "coef" : NumberInt(3)
+            },
+            "note" : 6.5
+        },
+        {
+            "inter" : {
+                "module" : "M2207",
+                "coef" : NumberInt(1)
+            },
+            "note" : 11.83
+        },
+        {
+            "inter" : {
+                "module" : "M2204",
+                "coef" : NumberInt(1)
+            },
+            "note" : 6.36
+        },
+        {
+            "inter" : {
+                "module" : "M1205",
+                "coef" : NumberInt(1)
+            },
+            "note" : 17.37
+        },
+        {
+            "inter" : {
+                "module" : "M1102",
+                "coef" : 0.5
+            },
+            "note" : 7.59
+        },
+        {
+            "inter" : {
+                "module" : "M2103",
+                "coef" : 1.5
+            },
+            "note" : 13.16
+        },
+        {
+            "inter" : {
+                "module" : "M2106",
+                "coef" : NumberInt(1)
+            },
+            "note" : 12.21
+        },
+        {
+            "inter" : {
+                "module" : "M3302",
+                "coef" : 1.5
+            },
+            "note" : 5.03
+        }
+    ]
+},
+{
+    "_id" : ObjectId("63d92eb8010da14e568c299d"),
+    "nom" : "Burt",
+    "prenom" : "Foster",
+    "classe" : "S3",
+    "notes" : [
+        {
+            "inter" : {
+                "module" : "M3302",
+                "coef" : 1.5
+            },
+            "note" : 7.6
+        },
+        {
+            "inter" : {
+                "module" : "M2204",
+                "coef" : NumberInt(1)
+            },
+            "note" : 9.76
+        },
+        {
+            "inter" : {
+                "module" : "M1205",
+                "coef" : NumberInt(1)
+            },
+            "note" : 17.1
+        },
+        {
+            "inter" : {
+                "module" : "M4101",
+                "coef" : NumberInt(3)
+            },
+            "note" : 10.98
+        },
+        {
+            "inter" : {
+                "module" : "M2205",
+                "coef" : 3.5
+            },
+            "note" : 9.95
+        },
+        {
+            "inter" : {
+                "module" : "M1204",
+                "coef" : 3.5
+            },
+            "note" : 9.52
+        },
+        {
+            "inter" : {
+                "module" : "M2106",
+                "coef" : NumberInt(1)
+            },
+            "note" : 9.7
+        },
+        {
+            "inter" : {
+                "module" : "M1102",
+                "coef" : 0.5
+            },
+            "note" : 12.15
+        }
+    ]
+},
+{
+    "_id" : ObjectId("63d92eb8010da14e568c299e"),
+    "nom" : "Chen",
+    "prenom" : "Reilly",
+    "classe" : "S3",
+    "notes" : [
+        {
+            "inter" : {
+                "module" : "M2205",
+                "coef" : 3.5
+            },
+            "note" : 7.8
+        },
+        {
+            "inter" : {
+                "module" : "M4101",
+                "coef" : NumberInt(3)
+            },
+            "note" : 14.91
+        },
+        {
+            "inter" : {
+                "module" : "M2204",
+                "coef" : NumberInt(1)
+            },
+            "note" : 7.46
+        },
+        {
+            "inter" : {
+                "module" : "M1205",
+                "coef" : NumberInt(1)
+            },
+            "note" : 8.21
+        },
+        {
+            "inter" : {
+                "module" : "M2207",
+                "coef" : NumberInt(1)
+            },
+            "note" : 5.51
+        },
+        {
+            "inter" : {
+                "module" : "M3206",
+                "coef" : NumberInt(2)
+            },
+            "note" : 8.76
+        },
+        {
+            "inter" : {
+                "module" : "M2106",
+                "coef" : NumberInt(1)
+            },
+            "note" : 0.49
+        },
+        {
+            "inter" : {
+                "module" : "M1204",
+                "coef" : 3.5
+            },
+            "note" : 5.93
+        },
+        {
+            "inter" : {
+                "module" : "M3302",
+                "coef" : 1.5
+            },
+            "note" : 10.49
+        }
+    ]
+},
+{
+    "_id" : ObjectId("63d92eb8010da14e568c299f"),
+    "nom" : "Mclean",
+    "prenom" : "Ortega",
+    "classe" : "S1",
+    "notes" : [
+        {
+            "inter" : {
+                "module" : "M2207",
+                "coef" : NumberInt(1)
+            },
+            "note" : 7.22
+        },
+        {
+            "inter" : {
+                "module" : "M2106",
+                "coef" : NumberInt(1)
+            },
+            "note" : 10.37
+        },
+        {
+            "inter" : {
+                "module" : "M2205",
+                "coef" : 3.5
+            },
+            "note" : 6.34
+        },
+        {
+            "inter" : {
+                "module" : "M1205",
+                "coef" : NumberInt(1)
+            },
+            "note" : 7.32
+        },
+        {
+            "inter" : {
+                "module" : "M3206",
+                "coef" : NumberInt(2)
+            },
+            "note" : 10.77
+        },
+        {
+            "inter" : {
+                "module" : "M4101",
+                "coef" : NumberInt(3)
+            },
+            "note" : 10.98
+        },
+        {
+            "inter" : {
+                "module" : "M1204",
+                "coef" : 3.5
+            },
+            "note" : 4.84
+        },
+        {
+            "inter" : {
+                "module" : "M2103",
+                "coef" : 1.5
+            },
+            "note" : 13.46
+        },
+        {
+            "inter" : {
+                "module" : "M3302",
+                "coef" : 1.5
+            },
+            "note" : 4.75
+        }
+    ]
+},
+{
+    "_id" : ObjectId("63d92eb8010da14e568c29a0"),
+    "nom" : "Whitney",
+    "prenom" : "Best",
+    "classe" : "S4",
+    "notes" : [
+        {
+            "inter" : {
+                "module" : "M2106",
+                "coef" : NumberInt(1)
+            },
+            "note" : 12.22
+        },
+        {
+            "inter" : {
+                "module" : "M2103",
+                "coef" : 1.5
+            },
+            "note" : 12.81
+        },
+        {
+            "inter" : {
+                "module" : "M3206",
+                "coef" : NumberInt(2)
+            },
+            "note" : 8.3
+        },
+        {
+            "inter" : {
+                "module" : "M1206",
+                "coef" : 2.5
+            },
+            "note" : 11.11
+        },
+        {
+            "inter" : {
+                "module" : "M3302",
+                "coef" : 1.5
+            },
+            "note" : 12.87
+        },
+        {
+            "inter" : {
+                "module" : "M1102",
+                "coef" : 0.5
+            },
+            "note" : 10.15
+        },
+        {
+            "inter" : {
+                "module" : "M1204",
+                "coef" : 3.5
+            },
+            "note" : 6.48
+        },
+        {
+            "inter" : {
+                "module" : "M4101",
+                "coef" : NumberInt(3)
+            },
+            "note" : 14.83
+        },
+        {
+            "inter" : {
+                "module" : "M1205",
+                "coef" : NumberInt(1)
+            },
+            "note" : 11.16
+        }
+    ]
+},
+{
+    "_id" : ObjectId("63d92eb8010da14e568c29a1"),
+    "nom" : "Olivia",
+    "prenom" : "Steele",
+    "classe" : "S4",
+    "notes" : [
+        {
+            "inter" : {
+                "module" : "M2204",
+                "coef" : NumberInt(1)
+            },
+            "note" : 9.23
+        },
+        {
+            "inter" : {
+                "module" : "M3302",
+                "coef" : 1.5
+            },
+            "note" : 10.6
+        },
+        {
+            "inter" : {
+                "module" : "M2106",
+                "coef" : NumberInt(1)
+            },
+            "note" : 6.56
+        },
+        {
+            "inter" : {
+                "module" : "M2205",
+                "coef" : 3.5
+            },
+            "note" : 9.46
+        },
+        {
+            "inter" : {
+                "module" : "M1102",
+                "coef" : 0.5
+            },
+            "note" : 9.46
+        },
+        {
+            "inter" : {
+                "module" : "M2103",
+                "coef" : 1.5
+            },
+            "note" : 13.14
+        },
+        {
+            "inter" : {
+                "module" : "M4101",
+                "coef" : NumberInt(3)
+            },
+            "note" : 11.07
+        },
+        {
+            "inter" : {
+                "module" : "M2207",
+                "coef" : NumberInt(1)
+            },
+            "note" : 9.07
+        },
+        {
+            "inter" : {
+                "module" : "M1205",
+                "coef" : NumberInt(1)
+            },
+            "note" : 8.42
+        }
+    ]
+},
+{
+    "_id" : ObjectId("63d92eb8010da14e568c29a2"),
+    "nom" : "Caldwell",
+    "prenom" : "Dunn",
+    "classe" : "S3",
+    "notes" : [
+        {
+            "inter" : {
+                "module" : "M3302",
+                "coef" : 1.5
+            },
+            "note" : 12.87
+        },
+        {
+            "inter" : {
+                "module" : "M3206",
+                "coef" : NumberInt(2)
+            },
+            "note" : 10.51
+        },
+        {
+            "inter" : {
+                "module" : "M2205",
+                "coef" : 3.5
+            },
+            "note" : 11.71
+        },
+        {
+            "inter" : {
+                "module" : "M2103",
+                "coef" : 1.5
+            },
+            "note" : 10.9
+        },
+        {
+            "inter" : {
+                "module" : "M2106",
+                "coef" : NumberInt(1)
+            },
+            "note" : 12.74
+        },
+        {
+            "inter" : {
+                "module" : "M1204",
+                "coef" : 3.5
+            },
+            "note" : 7.51
+        },
+        {
+            "inter" : {
+                "module" : "M4101",
+                "coef" : NumberInt(3)
+            },
+            "note" : 7.84
+        },
+        {
+            "inter" : {
+                "module" : "M1102",
+                "coef" : 0.5
+            },
+            "note" : 7.38
+        },
+        {
+            "inter" : {
+                "module" : "M2207",
+                "coef" : NumberInt(1)
+            },
+            "note" : 9.86
+        },
+        {
+            "inter" : {
+                "module" : "M1205",
+                "coef" : NumberInt(1)
+            },
+            "note" : 12.76
+        }
+    ]
+},
+{
+    "_id" : ObjectId("63d92eb8010da14e568c29a3"),
+    "nom" : "Marietta",
+    "prenom" : "Francis",
+    "classe" : "S2",
+    "notes" : [
+        {
+            "inter" : {
+                "module" : "M3302",
+                "coef" : 1.5
+            },
+            "note" : 15.93
+        },
+        {
+            "inter" : {
+                "module" : "M2106",
+                "coef" : NumberInt(1)
+            },
+            "note" : 11.56
+        },
+        {
+            "inter" : {
+                "module" : "M2207",
+                "coef" : NumberInt(1)
+            },
+            "note" : 14.67
+        },
+        {
+            "inter" : {
+                "module" : "M1204",
+                "coef" : 3.5
+            },
+            "note" : 3.01
+        },
+        {
+            "inter" : {
+                "module" : "M1206",
+                "coef" : 2.5
+            },
+            "note" : 11.39
+        },
+        {
+            "inter" : {
+                "module" : "M3206",
+                "coef" : NumberInt(2)
+            },
+            "note" : 2.72
+        },
+        {
+            "inter" : {
+                "module" : "M2205",
+                "coef" : 3.5
+            },
+            "note" : 7.65
+        },
+        {
+            "inter" : {
+                "module" : "M2204",
+                "coef" : NumberInt(1)
+            },
+            "note" : 9.44
+        }
+    ]
+},
+{
+    "_id" : ObjectId("63d92eb8010da14e568c29a4"),
+    "nom" : "Stokes",
+    "prenom" : "Valdez",
+    "classe" : "S1",
+    "notes" : [
+        {
+            "inter" : {
+                "module" : "M2103",
+                "coef" : 1.5
+            },
+            "note" : 6.63
+        },
+        {
+            "inter" : {
+                "module" : "M1204",
+                "coef" : 3.5
+            },
+            "note" : 6.63
+        },
+        {
+            "inter" : {
+                "module" : "M1102",
+                "coef" : 0.5
+            },
+            "note" : 7.68
+        },
+        {
+            "inter" : {
+                "module" : "M1206",
+                "coef" : 2.5
+            },
+            "note" : 14.03
+        },
+        {
+            "inter" : {
+                "module" : "M2205",
+                "coef" : 3.5
+            },
+            "note" : 8.24
+        },
+        {
+            "inter" : {
+                "module" : "M1205",
+                "coef" : NumberInt(1)
+            },
+            "note" : 14.66
+        },
+        {
+            "inter" : {
+                "module" : "M2207",
+                "coef" : NumberInt(1)
+            },
+            "note" : 13.93
+        },
+        {
+            "inter" : {
+                "module" : "M2106",
+                "coef" : NumberInt(1)
+            },
+            "note" : 11.95
+        }
+    ]
+},
+{
+    "_id" : ObjectId("63d92eb8010da14e568c29a5"),
+    "nom" : "Swanson",
+    "prenom" : "Langley",
+    "classe" : "S2",
+    "notes" : [
+        {
+            "inter" : {
+                "module" : "M3206",
+                "coef" : NumberInt(2)
+            },
+            "note" : 13.15
+        },
+        {
+            "inter" : {
+                "module" : "M3302",
+                "coef" : 1.5
+            },
+            "note" : 11.39
+        },
+        {
+            "inter" : {
+                "module" : "M2207",
+                "coef" : NumberInt(1)
+            },
+            "note" : 9.94
+        },
+        {
+            "inter" : {
+                "module" : "M2204",
+                "coef" : NumberInt(1)
+            },
+            "note" : 6.38
+        },
+        {
+            "inter" : {
+                "module" : "M1204",
+                "coef" : 3.5
+            },
+            "note" : 12.46
+        },
+        {
+            "inter" : {
+                "module" : "M2103",
+                "coef" : 1.5
+            },
+            "note" : 12.19
+        },
+        {
+            "inter" : {
+                "module" : "M2106",
+                "coef" : NumberInt(1)
+            },
+            "note" : 8.93
+        },
+        {
+            "inter" : {
+                "module" : "M1102",
+                "coef" : 0.5
+            },
+            "note" : 10.92
+        }
+    ]
+},
+{
+    "_id" : ObjectId("63d92eb8010da14e568c29a6"),
+    "nom" : "Boyd",
+    "prenom" : "Wilcox",
+    "classe" : "S3",
+    "notes" : [
+        {
+            "inter" : {
+                "module" : "M2205",
+                "coef" : 3.5
+            },
+            "note" : 16.06
+        },
+        {
+            "inter" : {
+                "module" : "M1206",
+                "coef" : 2.5
+            },
+            "note" : 10.46
+        },
+        {
+            "inter" : {
+                "module" : "M1102",
+                "coef" : 0.5
+            },
+            "note" : 7.85
+        },
+        {
+            "inter" : {
+                "module" : "M2204",
+                "coef" : NumberInt(1)
+            },
+            "note" : 8.94
+        },
+        {
+            "inter" : {
+                "module" : "M3302",
+                "coef" : 1.5
+            },
+            "note" : 11.08
+        },
+        {
+            "inter" : {
+                "module" : "M2207",
+                "coef" : NumberInt(1)
+            },
+            "note" : 10.84
+        },
+        {
+            "inter" : {
+                "module" : "M2106",
+                "coef" : NumberInt(1)
+            },
+            "note" : 8.62
+        },
+        {
+            "inter" : {
+                "module" : "M2103",
+                "coef" : 1.5
+            },
+            "note" : 9.09
+        }
+    ]
+},
+{
+    "_id" : ObjectId("63d92eb8010da14e568c29a7"),
+    "nom" : "Selma",
+    "prenom" : "Klein",
+    "classe" : "S2",
+    "notes" : [
+        {
+            "inter" : {
+                "module" : "M2207",
+                "coef" : NumberInt(1)
+            },
+            "note" : 7.56
+        },
+        {
+            "inter" : {
+                "module" : "M2205",
+                "coef" : 3.5
+            },
+            "note" : 8.98
+        },
+        {
+            "inter" : {
+                "module" : "M3302",
+                "coef" : 1.5
+            },
+            "note" : 6.96
+        },
+        {
+            "inter" : {
+                "module" : "M2103",
+                "coef" : 1.5
+            },
+            "note" : 3.99
+        },
+        {
+            "inter" : {
+                "module" : "M3206",
+                "coef" : NumberInt(2)
+            },
+            "note" : 16.71
+        },
+        {
+            "inter" : {
+                "module" : "M4101",
+                "coef" : NumberInt(3)
+            },
+            "note" : 2.68
+        },
+        {
+            "inter" : {
+                "module" : "M1205",
+                "coef" : NumberInt(1)
+            },
+            "note" : 5.55
+        },
+        {
+            "inter" : {
+                "module" : "M1206",
+                "coef" : 2.5
+            },
+            "note" : 8.19
+        },
+        {
+            "inter" : {
+                "module" : "M1102",
+                "coef" : 0.5
+            },
+            "note" : 5.21
+        },
+        {
+            "inter" : {
+                "module" : "M2204",
+                "coef" : NumberInt(1)
+            },
+            "note" : 12.56
+        }
+    ]
+},
+{
+    "_id" : ObjectId("63d92eb8010da14e568c29a8"),
+    "nom" : "Vonda",
+    "prenom" : "Cole",
+    "classe" : "S4",
+    "notes" : [
+        {
+            "inter" : {
+                "module" : "M1204",
+                "coef" : 3.5
+            },
+            "note" : 7.23
+        },
+        {
+            "inter" : {
+                "module" : "M2207",
+                "coef" : NumberInt(1)
+            },
+            "note" : 19.58
+        },
+        {
+            "inter" : {
+                "module" : "M2204",
+                "coef" : NumberInt(1)
+            },
+            "note" : 8.66
+        },
+        {
+            "inter" : {
+                "module" : "M1102",
+                "coef" : 0.5
+            },
+            "note" : 9.8
+        },
+        {
+            "inter" : {
+                "module" : "M3206",
+                "coef" : NumberInt(2)
+            },
+            "note" : 6.88
+        },
+        {
+            "inter" : {
+                "module" : "M4101",
+                "coef" : NumberInt(3)
+            },
+            "note" : 5.38
+        },
+        {
+            "inter" : {
+                "module" : "M1206",
+                "coef" : 2.5
+            },
+            "note" : 12.53
+        },
+        {
+            "inter" : {
+                "module" : "M1205",
+                "coef" : NumberInt(1)
+            },
+            "note" : 6.18
+        }
+    ]
+},
+{
+    "_id" : ObjectId("63d92eb8010da14e568c29a9"),
+    "nom" : "Sweeney",
+    "prenom" : "Guy",
+    "classe" : "S3",
+    "notes" : [
+        {
+            "inter" : {
+                "module" : "M2103",
+                "coef" : 1.5
+            },
+            "note" : 8.31
+        },
+        {
+            "inter" : {
+                "module" : "M2205",
+                "coef" : 3.5
+            },
+            "note" : 6.44
+        },
+        {
+            "inter" : {
+                "module" : "M2106",
+                "coef" : NumberInt(1)
+            },
+            "note" : 6.97
+        },
+        {
+            "inter" : {
+                "module" : "M2207",
+                "coef" : NumberInt(1)
+            },
+            "note" : 6.83
+        },
+        {
+            "inter" : {
+                "module" : "M1102",
+                "coef" : 0.5
+            },
+            "note" : 13.69
+        },
+        {
+            "inter" : {
+                "module" : "M1205",
+                "coef" : NumberInt(1)
+            },
+            "note" : 9.85
+        },
+        {
+            "inter" : {
+                "module" : "M4101",
+                "coef" : NumberInt(3)
+            },
+            "note" : 9.1
+        },
+        {
+            "inter" : {
+                "module" : "M2204",
+                "coef" : NumberInt(1)
+            },
+            "note" : 9.36
+        },
+        {
+            "inter" : {
+                "module" : "M3302",
+                "coef" : 1.5
+            },
+            "note" : 11.03
+        },
+        {
+            "inter" : {
+                "module" : "M1206",
+                "coef" : 2.5
+            },
+            "note" : 16.7
+        }
+    ]
+},
+{
+    "_id" : ObjectId("63d92eb8010da14e568c29aa"),
+    "nom" : "Pennington",
+    "prenom" : "Tyson",
+    "classe" : "S1",
+    "notes" : [
+        {
+            "inter" : {
+                "module" : "M4101",
+                "coef" : NumberInt(3)
+            },
+            "note" : 6.76
+        },
+        {
+            "inter" : {
+                "module" : "M1205",
+                "coef" : NumberInt(1)
+            },
+            "note" : 12.01
+        },
+        {
+            "inter" : {
+                "module" : "M1204",
+                "coef" : 3.5
+            },
+            "note" : 9.03
+        },
+        {
+            "inter" : {
+                "module" : "M2205",
+                "coef" : 3.5
+            },
+            "note" : 4.8
+        },
+        {
+            "inter" : {
+                "module" : "M2207",
+                "coef" : NumberInt(1)
+            },
+            "note" : 12.64
+        },
+        {
+            "inter" : {
+                "module" : "M3206",
+                "coef" : NumberInt(2)
+            },
+            "note" : 12.36
+        },
+        {
+            "inter" : {
+                "module" : "M2103",
+                "coef" : 1.5
+            },
+            "note" : 9.11
+        },
+        {
+            "inter" : {
+                "module" : "M1206",
+                "coef" : 2.5
+            },
+            "note" : 7.73
+        },
+        {
+            "inter" : {
+                "module" : "M1102",
+                "coef" : 0.5
+            },
+            "note" : 9.75
+        }
+    ]
+},
+{
+    "_id" : ObjectId("63d92eb8010da14e568c29ab"),
+    "nom" : "Katharine",
+    "prenom" : "Gutierrez",
+    "classe" : "S2",
+    "notes" : [
+        {
+            "inter" : {
+                "module" : "M2207",
+                "coef" : NumberInt(1)
+            },
+            "note" : 7.71
+        },
+        {
+            "inter" : {
+                "module" : "M1102",
+                "coef" : 0.5
+            },
+            "note" : 9.09
+        },
+        {
+            "inter" : {
+                "module" : "M2205",
+                "coef" : 3.5
+            },
+            "note" : 11.2
+        },
+        {
+            "inter" : {
+                "module" : "M1205",
+                "coef" : NumberInt(1)
+            },
+            "note" : 11.04
+        },
+        {
+            "inter" : {
+                "module" : "M3302",
+                "coef" : 1.5
+            },
+            "note" : 5.93
+        },
+        {
+            "inter" : {
+                "module" : "M3206",
+                "coef" : NumberInt(2)
+            },
+            "note" : 5.45
+        },
+        {
+            "inter" : {
+                "module" : "M4101",
+                "coef" : NumberInt(3)
+            },
+            "note" : 8.7
+        },
+        {
+            "inter" : {
+                "module" : "M2106",
+                "coef" : NumberInt(1)
+            },
+            "note" : 7.58
+        }
+    ]
+},
+{
+    "_id" : ObjectId("63d92eb8010da14e568c29ac"),
+    "nom" : "Tammy",
+    "prenom" : "Burks",
+    "classe" : "S1",
+    "notes" : [
+        {
+            "inter" : {
+                "module" : "M2204",
+                "coef" : NumberInt(1)
+            },
+            "note" : 13.77
+        },
+        {
+            "inter" : {
+                "module" : "M2207",
+                "coef" : NumberInt(1)
+            },
+            "note" : 6.01
+        },
+        {
+            "inter" : {
+                "module" : "M1102",
+                "coef" : 0.5
+            },
+            "note" : 8.81
+        },
+        {
+            "inter" : {
+                "module" : "M1204",
+                "coef" : 3.5
+            },
+            "note" : 14.19
+        },
+        {
+            "inter" : {
+                "module" : "M2205",
+                "coef" : 3.5
+            },
+            "note" : 6.83
+        },
+        {
+            "inter" : {
+                "module" : "M4101",
+                "coef" : NumberInt(3)
+            },
+            "note" : 4.74
+        },
+        {
+            "inter" : {
+                "module" : "M1206",
+                "coef" : 2.5
+            },
+            "note" : 10.19
+        },
+        {
+            "inter" : {
+                "module" : "M1205",
+                "coef" : NumberInt(1)
+            },
+            "note" : 9.09
+        },
+        {
+            "inter" : {
+                "module" : "M3302",
+                "coef" : 1.5
+            },
+            "note" : 10.74
+        },
+        {
+            "inter" : {
+                "module" : "M2106",
+                "coef" : NumberInt(1)
+            },
+            "note" : 13.85
+        }
+    ]
+},
+{
+    "_id" : ObjectId("63d92eb8010da14e568c29ad"),
+    "nom" : "Sawyer",
+    "prenom" : "Mckinney",
+    "classe" : "S4",
+    "notes" : [
+        {
+            "inter" : {
+                "module" : "M3206",
+                "coef" : NumberInt(2)
+            },
+            "note" : 8.88
+        },
+        {
+            "inter" : {
+                "module" : "M1206",
+                "coef" : 2.5
+            },
+            "note" : 9.85
+        },
+        {
+            "inter" : {
+                "module" : "M3302",
+                "coef" : 1.5
+            },
+            "note" : 8.82
+        },
+        {
+            "inter" : {
+                "module" : "M1204",
+                "coef" : 3.5
+            },
+            "note" : 8.95
+        },
+        {
+            "inter" : {
+                "module" : "M2205",
+                "coef" : 3.5
+            },
+            "note" : 9.67
+        },
+        {
+            "inter" : {
+                "module" : "M2106",
+                "coef" : NumberInt(1)
+            },
+            "note" : 10.38
+        },
+        {
+            "inter" : {
+                "module" : "M2204",
+                "coef" : NumberInt(1)
+            },
+            "note" : 12.32
+        },
+        {
+            "inter" : {
+                "module" : "M2103",
+                "coef" : 1.5
+            },
+            "note" : 11.71
+        },
+        {
+            "inter" : {
+                "module" : "M1102",
+                "coef" : 0.5
+            },
+            "note" : 10.37
+        },
+        {
+            "inter" : {
+                "module" : "M4101",
+                "coef" : NumberInt(3)
+            },
+            "note" : 8.5
+        }
+    ]
+},
+{
+    "_id" : ObjectId("63d92eb8010da14e568c29ae"),
+    "nom" : "Goodman",
+    "prenom" : "Velazquez",
+    "classe" : "S2",
+    "notes" : [
+        {
+            "inter" : {
+                "module" : "M2204",
+                "coef" : NumberInt(1)
+            },
+            "note" : 14.55
+        },
+        {
+            "inter" : {
+                "module" : "M1204",
+                "coef" : 3.5
+            },
+            "note" : 9.01
+        },
+        {
+            "inter" : {
+                "module" : "M2103",
+                "coef" : 1.5
+            },
+            "note" : 3.52
+        },
+        {
+            "inter" : {
+                "module" : "M2106",
+                "coef" : NumberInt(1)
+            },
+            "note" : 12.16
+        },
+        {
+            "inter" : {
+                "module" : "M1206",
+                "coef" : 2.5
+            },
+            "note" : 3.56
+        },
+        {
+            "inter" : {
+                "module" : "M1102",
+                "coef" : 0.5
+            },
+            "note" : 13.24
+        },
+        {
+            "inter" : {
+                "module" : "M2207",
+                "coef" : NumberInt(1)
+            },
+            "note" : 9.4
+        },
+        {
+            "inter" : {
+                "module" : "M2205",
+                "coef" : 3.5
+            },
+            "note" : 8.59
+        },
+        {
+            "inter" : {
+                "module" : "M4101",
+                "coef" : NumberInt(3)
+            },
+            "note" : 3.11
+        },
+        {
+            "inter" : {
+                "module" : "M3302",
+                "coef" : 1.5
+            },
+            "note" : 5.46
+        }
+    ]
+},
+{
+    "_id" : ObjectId("63d92eb8010da14e568c29af"),
+    "nom" : "Hubbard",
+    "prenom" : "Donovan",
+    "classe" : "S1",
+    "notes" : [
+        {
+            "inter" : {
+                "module" : "M1204",
+                "coef" : 3.5
+            },
+            "note" : 8.77
+        },
+        {
+            "inter" : {
+                "module" : "M2204",
+                "coef" : NumberInt(1)
+            },
+            "note" : 5.98
+        },
+        {
+            "inter" : {
+                "module" : "M2106",
+                "coef" : NumberInt(1)
+            },
+            "note" : 7.47
+        },
+        {
+            "inter" : {
+                "module" : "M3206",
+                "coef" : NumberInt(2)
+            },
+            "note" : 11.85
+        },
+        {
+            "inter" : {
+                "module" : "M1102",
+                "coef" : 0.5
+            },
+            "note" : 12.32
+        },
+        {
+            "inter" : {
+                "module" : "M1205",
+                "coef" : NumberInt(1)
+            },
+            "note" : 9.64
+        },
+        {
+            "inter" : {
+                "module" : "M1206",
+                "coef" : 2.5
+            },
+            "note" : 9.25
+        },
+        {
+            "inter" : {
+                "module" : "M2205",
+                "coef" : 3.5
+            },
+            "note" : 14.92
+        },
+        {
+            "inter" : {
+                "module" : "M3302",
+                "coef" : 1.5
+            },
+            "note" : 1.82
+        }
+    ]
+},
+{
+    "_id" : ObjectId("63d92eb8010da14e568c29b0"),
+    "nom" : "Brenda",
+    "prenom" : "Benson",
+    "classe" : "S3",
+    "notes" : [
+        {
+            "inter" : {
+                "module" : "M2205",
+                "coef" : 3.5
+            },
+            "note" : 3.25
+        },
+        {
+            "inter" : {
+                "module" : "M4101",
+                "coef" : NumberInt(3)
+            },
+            "note" : 6.76
+        },
+        {
+            "inter" : {
+                "module" : "M3302",
+                "coef" : 1.5
+            },
+            "note" : 5.08
+        },
+        {
+            "inter" : {
+                "module" : "M2204",
+                "coef" : NumberInt(1)
+            },
+            "note" : 13.29
+        },
+        {
+            "inter" : {
+                "module" : "M2207",
+                "coef" : NumberInt(1)
+            },
+            "note" : 14.18
+        },
+        {
+            "inter" : {
+                "module" : "M1102",
+                "coef" : 0.5
+            },
+            "note" : 7.01
+        },
+        {
+            "inter" : {
+                "module" : "M3206",
+                "coef" : NumberInt(2)
+            },
+            "note" : 9.76
+        }
+    ]
+},
+{
+    "_id" : ObjectId("63d92eb8010da14e568c29b1"),
+    "nom" : "Barbra",
+    "prenom" : "Spencer",
+    "classe" : "S1",
+    "notes" : [
+        {
+            "inter" : {
+                "module" : "M2204",
+                "coef" : NumberInt(1)
+            },
+            "note" : 5.02
+        },
+        {
+            "inter" : {
+                "module" : "M3206",
+                "coef" : NumberInt(2)
+            },
+            "note" : 11.64
+        },
+        {
+            "inter" : {
+                "module" : "M1102",
+                "coef" : 0.5
+            },
+            "note" : 11.72
+        },
+        {
+            "inter" : {
+                "module" : "M2106",
+                "coef" : NumberInt(1)
+            },
+            "note" : 5.16
+        },
+        {
+            "inter" : {
+                "module" : "M1205",
+                "coef" : NumberInt(1)
+            },
+            "note" : 13.5
+        },
+        {
+            "inter" : {
+                "module" : "M1206",
+                "coef" : 2.5
+            },
+            "note" : 8.28
+        },
+        {
+            "inter" : {
+                "module" : "M1204",
+                "coef" : 3.5
+            },
+            "note" : 15.1
+        }
+    ]
+} ]);
