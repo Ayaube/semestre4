@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="SqlDialectMappings">
-    <file url="file://$PROJECT_DIR$/Analyse et Virtualisation/tp1/tp1.sql" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/Analyse et Visualisation/tp1/tp1.sql" dialect="GenericSQL" />
     <file url="file://$PROJECT_DIR$/Qualité &amp; Non-Relationnel/TP1/iut.js" dialect="MongoDB" />
     <file url="PROJECT" dialect="PostgreSQL" />
   </component>
